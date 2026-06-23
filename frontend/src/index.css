@@ -1,0 +1,11 @@
+@import "tailwindcss";
+
+@keyframes lcd-flicker {
+  0%, 100% { opacity: 1; }
+  50% { opacity: 0.96; }
+}
+
+@keyframes glow-pulse {
+  0%, 100% { box-shadow: 0 0 10px #39ff14; }
+  50% { box-shadow: 0 0 25px #39ff14; }
+}

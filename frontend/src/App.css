@@ -1,0 +1,972 @@
+@import "tailwindcss";
+
+/* =========================
+   DS DIGITAL FONT FAMILY
+   ========================= */
+
+@font-face {
+  font-family: "DS-Digital";
+  src: url("/fonts/DS-DIGI.TTF") format("truetype");
+  font-weight: 400;
+  font-style: normal;
+}
+
+@font-face {
+  font-family: "DS-Digital";
+  src: url("/fonts/DS-DIGIB.TTF") format("truetype");
+  font-weight: 700;
+  font-style: normal;
+}
+
+@font-face {
+  font-family: "DS-Digital";
+  src: url("/fonts/DS-DIGII.TTF") format("truetype");
+  font-weight: 400;
+  font-style: italic;
+}
+
+@font-face {
+  font-family: "DS-Digital";
+  src: url("/fonts/DS-DIGIT.TTF") format("truetype");
+  font-weight: 700;
+  font-style: italic;
+}
+
+/* =========================
+   DESIGN TOKENS
+   ========================= */
+
+:root {
+  /* LCD */
+  --lcd-bg-dark: #8ea887;
+  --lcd-bg-mid: #a8c69b;
+  --lcd-bg-light: #b8d6a8;
+
+  --lcd-border: #5d6e5d;
+  --lcd-text: #111111;
+
+  /* Device shell */
+  --watch-dark: #2a2a2a;
+  --watch-medium: #555555;
+  --watch-light: #b8b8b8;
+
+  /* Backlight */
+  --backlight: #aaff78;
+}
+
+/* =========================
+   GLOBAL
+   ========================= */
+
+@layer base {
+  body {
+    font-family: "DS-Digital", monospace;
+
+    min-height: 100vh;
+
+  background:
+linear-gradient(
+  180deg,
+  #585858 0%,
+  #444444 50%,
+  #2f2f2f 100%
+);
+
+    color: #111;
+
+    position: relative;
+  }
+}
+
+/* subtle molded plastic texture */
+
+body::before {
+  content: "";
+
+  position: fixed;
+  inset: 0;
+
+  pointer-events: none;
+
+  opacity: 0.08;
+
+  background-image:
+    repeating-linear-gradient(
+      45deg,
+      rgba(255,255,255,0.2) 0px,
+      rgba(255,255,255,0.2) 1px,
+      transparent 1px,
+      transparent 0.25rem
+    );
+}
+
+/* =========================
+   LCD PANEL
+   ========================= */
+
+.lcd-screen {
+  background:
+    radial-gradient(
+      circle at center,
+      var(--lcd-bg-light) 0%,
+      var(--lcd-bg-mid) 40%,
+      var(--lcd-bg-dark) 100%
+    );
+
+  color: var(--lcd-text);
+
+  border: 0.25rem solid var(--lcd-border);
+
+  border-radius: 0.5rem;
+
+  padding: 1rem;
+
+  position: relative;
+
+  overflow: visible;
+
+  box-shadow:
+    0 0 20px rgba(180, 255, 150, 0.15),
+    0 0 40px rgba(180, 255, 150, 0.10),
+    inset 0 0 15px rgba(255, 255, 255, 0.15),
+    inset 0 0 10px rgba(0, 0, 0, 0.25);
+}
+
+/* LCD scanline texture */
+
+.lcd-screen::before {
+  content: "";
+
+  position: absolute;
+  inset: 0;
+
+  background:
+    repeating-linear-gradient(
+      0deg,
+      rgba(0, 0, 0, 0.025) 0rem,
+      rgba(0, 0, 0, 0.025) 0.0625rem,
+      transparent 0.0625rem,
+      transparent 0.1875rem
+    );
+
+  pointer-events: none;
+  z-index: 0;
+}
+
+/* =========================
+   LCD BACKLIGHT ON
+   ========================= */
+
+.lcd-screen-lit {
+  background:
+    radial-gradient(
+      circle at center,
+      #d8ffc0 0%,
+      #c8f0a8 40%,
+      #a8d890 100%
+    );
+
+  color: var(--lcd-text);
+
+  border: 0.25rem solid var(--lcd-border);
+
+  border-radius: 0.5rem;
+
+  position: relative;
+
+  overflow: hidden;
+
+  box-shadow:
+    0 0 25px rgba(170, 255, 120, 0.8),
+    0 0 50px rgba(170, 255, 120, 0.5),
+    inset 0 0 25px rgba(255, 255, 220, 0.8),
+    inset 0 0 60px rgba(220, 255, 180, 0.6);
+}
+
+.lcd-screen-lit::before {
+  content: "";
+
+  position: absolute;
+  inset: 0;
+
+  background:
+    repeating-linear-gradient(
+      0deg,
+      rgba(0, 0, 0, 0.02) 0rem,
+      rgba(0, 0, 0, 0.02) 0.0625rem,
+      transparent 0.0625rem,
+      transparent 0.1875rem
+    );
+
+  pointer-events: none;
+}
+
+/* =========================
+   DIGITAL DISPLAY TEXT
+   ========================= */
+
+.casio-display {
+  font-family: "DS-Digital", monospace;
+
+  color: var(--lcd-text);
+
+  text-shadow:
+    0 0 0.25rem rgba(0, 0, 0, 0.25),
+    0 0 0.5rem rgba(0, 0, 0, 0.15);
+}
+
+/* =========================
+   OPTIONAL LCD GLOW WRAPPER
+   ========================= */
+
+.lcd-glow {
+  padding: 0.75rem;
+
+  border-radius: 0.75rem;
+
+  background:
+    radial-gradient(
+      circle,
+      rgba(170, 255, 120, 0.25) 0%,
+      rgba(170, 255, 120, 0.05) 60%,
+      transparent 100%
+    );
+}
+
+/* =========================
+   DEVICE BUTTONS
+   ========================= */
+
+.casio-btn {
+  background: #4a4a4a;
+
+  border: 2px solid #232323;
+
+  color: white;
+
+  border-radius: 0.375rem;
+
+  transition: all 0.15s ease;
+
+  box-shadow:
+    inset 0 2px 2px rgba(255,255,255,0.12),
+    0 2px 0.25rem rgba(0,0,0,0.35);
+}
+
+.casio-btn:hover {
+  background: #5a5a5a;
+}
+
+.casio-btn:active {
+  transform: translateY(2px);
+
+  box-shadow:
+    inset 0 2px 0.375rem rgba(0,0,0,0.5);
+}
+
+/* =========================
+   CASIO DEVICE PANEL
+   ========================= */
+
+.casio-panel {
+  background:
+    linear-gradient(
+      180deg,
+      #6e6e6e 0%,
+      #585858 100%
+    );
+
+  border: 3px solid #3a3a3a;
+
+  border-radius: 0.75rem;
+
+  box-shadow:
+    inset 0 2px 0.25rem rgba(255,255,255,0.15),
+    0 0.25rem 0.75rem rgba(0,0,0,0.25);
+}
+
+/* ========================================
+   LCD BREATHING BACKLIGHT
+======================================== */
+
+@keyframes lcdPulse {
+  0% {
+    box-shadow:
+      0 0 0.75rem rgba(170,255,120,0.15),
+      0 0 1.5rem rgba(170,255,120,0.08),
+      inset 0 0 0.75rem rgba(255,255,255,0.10),
+      inset 0 0 0.5rem rgba(0,0,0,0.20);
+
+    filter: brightness(1);
+  }
+
+  50% {
+    box-shadow:
+      0 0 25px rgba(170,255,120,0.55),
+      0 0 60px rgba(170,255,120,0.35),
+      inset 0 0 25px rgba(255,255,220,0.35),
+      inset 0 0 30px rgba(220,255,180,0.25);
+
+    filter: brightness(1.18);
+  }
+
+  100% {
+    box-shadow:
+      0 0 0.75rem rgba(170,255,120,0.15),
+      0 0 1.5rem rgba(170,255,120,0.08),
+      inset 0 0 0.75rem rgba(255,255,255,0.10),
+      inset 0 0 0.5rem rgba(0,0,0,0.20);
+
+    filter: brightness(1);
+  }
+}
+
+.lcd-breathe {
+  animation: lcdPulse 4s ease-in-out infinite;
+}
+
+::-webkit-scrollbar {
+  width: 0.875rem;
+}
+
+::-webkit-scrollbar-track {
+  background: #292929;
+}
+
+::-webkit-scrollbar-thumb {
+  background:
+    repeating-linear-gradient(
+      90deg,
+      #555 0rem,
+      #555 0.125rem,
+      #777 0.125rem,
+      #777 0.25rem
+    );
+}
+
+/* =========================
+   CASIO LCD BUTTON
+   ========================= */
+
+.casio-lcd-btn {
+  background:
+    radial-gradient(
+      circle at center,
+      var(--lcd-bg-light) 0%,
+      var(--lcd-bg-mid) 45%,
+      var(--lcd-bg-dark) 100%
+    );
+
+  color: #111;
+
+  border: 2px solid #3a3a3a;
+
+  border-radius: 0.375rem;
+
+  padding: 0.65rem 1rem;
+
+  font-family: "DS-Digital", monospace;
+
+  letter-spacing: 0.08em;
+
+  transition:
+    background 0.25s ease,
+    color 0.25s ease,
+    transform 0.15s ease,
+    box-shadow 0.25s ease;
+
+  box-shadow:
+    inset 0 0 0.5rem rgba(255,255,255,0.12),
+    inset 0 0 0.25rem rgba(0,0,0,0.25);
+}
+
+/* hover = inverted LCD */
+
+.casio-lcd-btn:hover {
+  background: #3a3a3a;
+
+  color: var(--lcd-bg-light);
+
+  border-color: #222;
+
+  box-shadow:
+    0 0 10px rgba(170,255,120,0.15);
+}
+
+/* button pressed */
+
+.casio-lcd-btn:active {
+  transform: translateY(2px);
+
+  background: #1f1f1f;
+}
+
+/* disabled */
+
+.casio-lcd-btn:disabled {
+  opacity: 0.5;
+
+  cursor: not-allowed;
+}
+
+/* =========================
+   CASIO DELETE BUTTON
+   ========================= */
+
+.casio-delete-btn {
+    
+
+  background:
+    radial-gradient(
+      ellipse at center,
+      #b44b4b 0%,
+      #9f2f2f 50%,
+      #6d1d1d 100%
+    );
+
+  border: 2px solid #401010;
+
+  color: #f5f5f5;
+
+
+  width: 2rem;
+  height: 2rem;
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  border: 2px solid #3a3a3a;
+
+  border-radius: 0.375rem;
+
+  background: transparent;
+
+  color: #3a3a3a;
+
+  font-size: 1.375rem;
+  line-height: 1;
+
+  cursor: pointer;
+
+  transition: all 0.2s ease;
+
+  /* subtle warning glow */
+
+
+}
+
+@keyframes dangerPulse {
+  0%,
+  100% {
+    box-shadow:
+  0 0 0 1px rgba(159,47,47,.25),
+  0 0 0.375rem rgba(159,47,47,.45),
+  inset 0 0 0.25rem rgba(255,255,255,.1);
+  }
+
+  50% {
+    box-shadow:
+rgba(159,47,47,.45)
+rgba(159,47,47,.65)
+      inset 0 0 0.25rem rgba(255,255,255,.1);
+  }
+}
+
+.casio-delete-btn:hover {
+  border-color: #9f2f2f;
+
+  color: #9f2f2f;
+
+  box-shadow:
+  0 0 1.375rem rgba(159,47,47,.55),
+  0 0 1.5rem rgba(159,47,47,.35);
+}
+
+.casio-delete-btn:active {
+  background: #9f2f2f;
+
+  border-color: #9f2f2f;
+
+  color: var(--lcd-bg-light);
+
+  transform: translateY(1px);
+
+  animation: none;
+}
+
+.casio-input {
+
+
+  color: #111;
+
+  border: 2px solid #5d6e5d;
+
+  padding: 0.6rem 0.75rem;
+
+  border-radius: 0.25rem;
+
+  font-family: "DS-Digital", monospace;
+
+  outline: none;
+
+  transition: all 0.2s ease;
+
+  caret-color: #111;
+}
+
+.casio-input:focus {
+  border-color: #111;
+
+  box-shadow:
+    0 0 10px rgba(170,255,120,.45),
+    inset 0 0 0.75rem rgba(255,255,220,.35);
+}
+
+.casio-input {
+  caret-color: #111;
+  caret-shape: block;
+}
+
+.casio-cancel-btn {
+  font-family: "DS-Digital", monospace;
+
+  font-size: 1rem;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+
+  background: transparent;
+
+  border: 2px solid #9f2f2f;
+  color: #9f2f2f;
+
+  padding: 0.75rem 1rem;
+
+  border-radius: 0.375rem;
+
+  transition: all 0.2s ease;
+
+  box-shadow:
+    0 0 0.5rem rgba(159, 47, 47, 0.25);
+}
+
+.casio-cancel-btn:hover {
+  background: #9f2f2f;
+
+  color: var(--lcd-bg-light);
+
+  box-shadow:
+    0 0 1rem rgba(159, 47, 47, 0.45);
+}
+
+.casio-cancel-btn:active {
+  transform: translateY(1px);
+}
+
+.casio-select {
+  appearance: none;
+  -webkit-appearance: none;
+  -moz-appearance: none;
+
+  padding-right: 3rem;
+
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='12' fill='%23111'%3E%3Cpath d='M6 9L1 3h10z'/%3E%3C/svg%3E");
+
+  background-repeat: no-repeat;
+  background-position: right 0.75rem center;
+
+  background-size: 0.75rem;
+}
+
+.casio-dropdown {
+  position: absolute;
+  top: calc(100% + 0.25rem);
+  left: 0;
+
+  width: 100%;
+
+  z-index: 99999;
+
+  background:
+    radial-gradient(
+      circle at center,
+      var(--lcd-bg-light) 0%,
+      var(--lcd-bg-mid) 45%,
+      var(--lcd-bg-dark) 100%
+    );
+
+  border: 2px solid #506050;
+
+  border-radius: 0.375rem;
+
+  overflow: hidden;
+
+  box-shadow:
+    0 0 1.125rem rgba(120,180,120,.45);
+}
+
+.casio-dropdown button {
+  width: 100%;
+  padding: 0.7rem 1rem;
+  text-align: left;
+  cursor: pointer;
+}
+
+.casio-dropdown button:hover {
+  background: #4f5f4f;
+  color: #d7ffd7;
+}
+
+.casio-danger-btn {
+  background:
+    radial-gradient(
+      circle at center,
+      #d49b9b 0%,
+      #b86d6d 45%,
+      #8f4444 100%
+    );
+
+  color: #2a0a0a;
+
+  border: 2px solid #5a2a2a;
+
+  border-radius: 0.375rem;
+
+  padding: 0.65rem 1rem;
+
+  font-family: "DS-Digital", monospace;
+
+  letter-spacing: 0.08em;
+
+  transition:
+    background 0.25s ease,
+    color 0.25s ease,
+    transform 0.15s ease,
+    box-shadow 0.25s ease;
+
+  box-shadow:
+    inset 0 0 0.5rem rgba(255,255,255,0.12),
+    inset 0 0 0.25rem rgba(0,0,0,0.25);
+}
+
+/* hover = inverted danger LCD */
+
+.casio-danger-btn:hover {
+  background: #4a1d1d;
+
+  color: #ffb6b6;
+
+  border-color: #2a0a0a;
+
+  box-shadow:
+    0 0 10px rgba(180,80,80,0.25);
+}
+
+/* pressed */
+
+.casio-danger-btn:active {
+  transform: translateY(2px);
+
+  background: #2a0a0a;
+
+  color: #ff9c9c;
+}
+
+/* disabled */
+
+.casio-danger-btn:disabled {
+  opacity: 0.5;
+
+  cursor: not-allowed;
+}
+
+@keyframes terminalBlink {
+  0%,
+  49% {
+    opacity: 1;
+  }
+
+  50%,
+  100% {
+    opacity: 0;
+  }
+}
+
+.terminal-cursor::after {
+  content: "_";
+  margin-left: 0.15rem;
+  animation: terminalBlink 1s infinite;
+}
+
+.cursor-blink {
+  animation: terminalBlink 1s infinite;
+}
+
+@keyframes terminalBlink {
+  0%,
+  49% {
+    opacity: 1;
+  }
+
+  50%,
+  100% {
+    opacity: 0;
+  }
+}
+
+.lcd-screen::after {
+  content: "";
+
+  position: absolute;
+  inset: 0;
+
+  background:
+    linear-gradient(
+      135deg,
+      rgba(255,255,255,.25) 0%,
+      rgba(255,255,255,.08) 20%,
+      transparent 45%
+    );
+
+  pointer-events: none;
+}
+
+.casio-btn-active {
+  transform: translateY(2px);
+
+  box-shadow:
+    inset 0 2px 5px rgba(0,0,0,.55),
+    inset 0 -1px 2px rgba(255,255,255,.08);
+
+  filter: brightness(0.97);
+}
+
+.casio-btn-active:hover {
+  transform: translateY(2px);
+}
+
+.casio-btn-active:active {
+  transform: translateY(2px);
+}
+
+/* ===========================
+   NAVBAR
+=========================== */
+
+.casio-navbar {
+  background: linear-gradient(
+    180deg,
+    #585858 0%,
+    #444444 40%,
+    #373737 100%
+  );
+
+  border-bottom: 4px solid #686868;
+
+  box-shadow:
+    inset 0 2px 3px rgba(255,255,255,.18),
+    inset 0 -4px 8px rgba(0,0,0,.4),
+    0 8px 20px rgba(0,0,0,.25);
+}
+
+.casio-navbar-inner {
+  max-width: 1400px;
+
+  margin: 0 auto;
+
+  padding: 14px 24px;
+
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.casio-navbar-status {
+  background: #cad6b5;
+
+  border-top: 1px solid rgba(255,255,255,.2);
+
+  border-bottom: 1px solid #88907a;
+
+  padding: 6px 24px;
+
+  position: relative;
+}
+
+.casio-navbar-status::before {
+  content: "";
+
+  position: absolute;
+
+  inset: 0;
+
+  pointer-events: none;
+
+  background-image:
+    repeating-linear-gradient(
+      to bottom,
+      rgba(0,0,0,.03) 0px,
+      rgba(0,0,0,.03) 1px,
+      transparent 2px,
+      transparent 4px
+    );
+}
+
+/* ===========================
+   POWER LED
+=========================== */
+
+.casio-led {
+  width: 12px;
+  height: 12px;
+
+  border-radius: 999px;
+
+  background: #62ff76;
+
+  box-shadow:
+    0 0 5px #62ff76,
+    0 0 12px #62ff76,
+    0 0 20px #62ff76;
+}
+
+/* ===========================
+   NAV BUTTONS
+=========================== */
+
+.casio-nav-btn {
+  position: relative;
+
+  min-width: 110px;
+
+  text-align: center;
+
+  padding: 12px 20px;
+
+  font-size: 12px;
+
+  letter-spacing: 0.25em;
+
+  text-transform: uppercase;
+
+  color: #f2f2f2;
+
+  border-radius: 4px;
+
+  background:
+    linear-gradient(
+      180deg,
+      #6b6b6b 0%,
+      #555 48%,
+      #434343 49%,
+      #343434 100%
+    );
+
+  border:
+    1px solid #2f2f2f;
+
+  box-shadow:
+    inset 0 2px 3px rgba(255,255,255,.25),
+    inset 0 -4px 8px rgba(0,0,0,.45),
+    0 2px 0 #222,
+    0 4px 10px rgba(0,0,0,.25);
+
+  transition: all .15s ease;
+}
+
+.casio-nav-btn::before {
+  content: "";
+
+  position: absolute;
+
+  left: 6px;
+  right: 6px;
+  top: 5px;
+
+  height: 35%;
+
+  border-radius: 2px;
+
+  background:
+    linear-gradient(
+      180deg,
+      rgba(255,255,255,.35),
+      transparent
+    );
+}
+
+.casio-nav-btn:hover {
+  transform: translateY(-1px);
+
+  filter: brightness(1.08);
+}
+
+.casio-nav-btn:active {
+  transform: translateY(2px);
+
+  box-shadow:
+    inset 0 2px 5px rgba(0,0,0,.55),
+    inset 0 -1px 2px rgba(255,255,255,.08);
+}
+
+.casio-nav-btn-active {
+  background:
+    linear-gradient(
+      180deg,
+      #a7ba8f 0%,
+      #90a37a 50%,
+      #7f8f6b 100%
+    );
+
+  color: #1d2518;
+
+  box-shadow:
+    inset 0 2px 3px rgba(255,255,255,.4),
+    inset 0 -3px 6px rgba(0,0,0,.2),
+    0 0 15px rgba(170,255,120,.35);
+}
+
+.casio-btn-inset {
+  position: relative;
+
+  transform: translateY(2px);
+
+  border-top: 2px solid #222;
+  border-left: 2px solid #222;
+  border-right: 1px solid #888;
+  border-bottom: 1px solid #888;
+
+  box-shadow:
+    inset 0 3px 8px rgba(0, 0, 0, 0.65),
+    inset 0 -1px 1px rgba(255, 255, 255, 0.08);
+
+  filter: brightness(0.95);
+}
+
+.casio-btn-inset:hover {
+  transform: translateY(2px);
+}
+
+.casio-btn-inset:active {
+  transform: translateY(2px);
+}
+
+@keyframes lcdBlink {
+  0%,
+  45% {
+    opacity: 1;
+  }
+
+  50%,
+  95% {
+    opacity: 0;
+  }
+
+  100% {
+    opacity: 1;
+  }
+}
+
+.lcd-blink {
+  animation: lcdBlink 1.2s steps(1) infinite;
+}
