@@ -84,6 +84,7 @@ const Login = () => {
   }, [projects]);
 
   const handleSubmit = async (e) => {
+    console.log("LOGIN CLICKED");
     e.preventDefault();
 
     setError("");
