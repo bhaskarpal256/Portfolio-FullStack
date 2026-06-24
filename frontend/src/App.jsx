@@ -14,7 +14,6 @@ import ManageProjects from "./pages/admin/ManageProjects.jsx";
 import Messages from "./pages/admin/Messages.jsx";
 import ResumeUpdate from "./pages/admin/ResumeUpdate.jsx";
 import Skills from "./pages/admin/Skills.jsx";
-import AdminPanel from "./pages/admin/AdminPanel.jsx";
 import Layout from "./components/Layout.jsx";
 import AdminLayout from "./components/AdminLayout.jsx";
 import { Toaster } from "react-hot-toast";
