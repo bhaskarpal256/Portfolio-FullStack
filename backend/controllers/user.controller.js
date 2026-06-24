@@ -69,8 +69,8 @@ const loginUser = asyncHandler(async (req, res) => {
   //Options is used so that cookies can only be modified by the server without it (if false) even front-end can modify the cookies
   const options = {
     httpOnly: true,
-    secure: process.env.NODE_ENV === "production",
-    sameSite: "lax",
+    secure: true,
+    sameSite: "none",
   };
 
   return res
@@ -98,8 +98,8 @@ const logoutUser = asyncHandler(async (req, res) => {
 
     const options = {
       httpOnly: true,
-      secure: process.env.NODE_ENV === "production",
-      sameSite: "lax",
+      secure: true,
+      sameSite: "none",
     };
   } catch (error) {
     console.error(error);
@@ -158,8 +158,8 @@ const refreshAccessToken = asyncHandler(async (req, res) => {
 
     const options = {
       httpOnly: true,
-      secure: process.env.NODE_ENV === "production",
-      sameSite: process.env.NODE_ENV === "production" ? "none" : "lax",
+      secure: true,
+      sameSite: "none",
     };
 
     return res
