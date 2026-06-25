@@ -979,33 +979,14 @@ rgba(159,47,47,.65)
 
 /* Actual curved glass */
 .crt-glass {
-  position: absolute;
-  inset: -2%;
+  position: fixed;
+  inset: 0;
+  z-index: 2;
 
-  pointer-events: none;
-  z-index: 9998;
-
-  border-radius:
-    8% 8% 10% 10% /
-    6% 6% 12% 12%;
-
-  box-shadow:
-    inset 0 0 120px rgba(255,255,255,0.06),
-    inset 0 0 200px rgba(255,255,255,0.03),
-    inset 0 0 400px rgba(0,0,0,0.3);
-
-  background:
-    radial-gradient(
-      ellipse at center,
-      transparent 45%,
-      rgba(0,0,0,0.08) 75%,
-      rgba(0,0,0,0.28) 100%
-    );
-
-  transform:
-    perspective(1800px)
-    scale(1.02)
-    rotateX(0.2deg);
+  background: rgba(255,255,255,0.04); /* IMPORTANT: not 0.02 */
+  
+  backdrop-filter: blur(0.3px);
+  -webkit-backdrop-filter: blur(0.3px);
 }
 
 .crt-shell {
@@ -1016,6 +997,7 @@ rgba(159,47,47,.65)
 .crt-content {
   position: relative;
   z-index: 1;
+  filter: none; /* IMPORTANT */
 }
 
 .crt-glass,
@@ -1025,42 +1007,29 @@ rgba(159,47,47,.65)
 }
 
 .crt-glare {
-  position: absolute;
+  position: fixed;
   inset: 0;
-
+  z-index: 3;
   pointer-events: none;
-  z-index: 9999;
 
   background:
     radial-gradient(
       ellipse at 20% 10%,
-      rgba(255,255,255,0.18),
-      transparent 20%
+      rgba(255,255,255,0.08),
+      transparent 35%
     ),
-
     radial-gradient(
       ellipse at 80% 15%,
-      rgba(255,255,255,0.07),
-      transparent 25%
+      rgba(255,255,255,0.04),
+      transparent 40%
     ),
-
     linear-gradient(
       115deg,
-      rgba(255,255,255,0.18) 0%,
-      rgba(255,255,255,0.08) 12%,
-      transparent 25%
+      rgba(255,255,255,0.06),
+      transparent 35%
     );
-}
 
-.crt-content {
-  min-height: 100vh;
-  transform: perspective(2200px);
-  filter: contrast(1.05) brightness(1.02);
-}
-
-.crt-glass {
-  backdrop-filter: blur(0.10px);
-  -webkit-backdrop-filter: blur(0.8px);
+  opacity: 0.5; /* 👈 main global dimmer */
 }
 
 html {
@@ -1083,3 +1052,4 @@ body::after {
     linear-gradient(to bottom, #585858 25%, transparent 100%),
     linear-gradient(to top, #2f2f2f 25%, transparent 100%);
 }
+
