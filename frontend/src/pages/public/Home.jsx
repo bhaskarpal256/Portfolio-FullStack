@@ -42,7 +42,7 @@ const Home = () => {
 
       <div className="max-w-5xl mx-auto relative z-10">
 
-        <div className="casio-panel p-2 md:p-4">
+        <div className="casio-panel p-1 md:p-4">
 
           <div className="lcd-screen lcd-breathe">
 
