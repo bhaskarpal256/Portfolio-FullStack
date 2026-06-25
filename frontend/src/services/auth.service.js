@@ -2,8 +2,15 @@ import { api } from "./api.js";
 import { refreshClient } from "./refreshClient.js";
 
 // Login
-export const loginUser = (credentials) =>
-  api.post("/users/login", credentials, { withCredentials: true });
+export const loginUser = async (credentials) => {
+  const res = await api.post("/users/login", credentials);
+
+  const accessToken = res.data.data.accessToken;
+
+  localStorage.setItem("accessToken", accessToken);
+
+  return res.data;
+};
 
 // Logout
 export const logoutUser = () =>
