@@ -5,31 +5,45 @@ import jwt from "jsonwebtoken";
 
 export const verifyJWT = asyncHandler(async (req, res, next) => {
   try {
+    // 1. Get token from either cookies OR Authorization header
+    const authHeader = req.headers.authorization;
+
     const token =
       req.cookies?.accessToken ||
-      req.header("Authorization")?.replace("Bearer ", "");
+      (authHeader && authHeader.startsWith("Bearer ")
+        ? authHeader.split(" ")[1]
+        : null);
 
     if (!token) {
-      throw new ApiError(401, "Unauthorized request");
+      throw new ApiError(401, "Unauthorized request - no token provided");
     }
 
+    // 2. Verify token
     const decodedToken = jwt.verify(token, process.env.ACCESS_TOKEN_SECRET);
 
-    const user = await User.findById(decodedToken?._id).select(
-      "-password -refreshToken",
-    );
-
-    if (!user) {
+    if (!decodedToken?._id) {
       throw new ApiError(401, "Invalid Access Token");
     }
 
+    // 3. Find user
+    const user = await User.findById(decodedToken._id).select(
+      "-password -refreshToken"
+    );
+
+    if (!user) {
+      throw new ApiError(401, "User not found / invalid token");
+    }
+
+    // 4. Attach user to request
     req.user = user;
 
-    console.log("VERIFY JWT USER:", user._id);
-    console.log("VERIFY JWT REQ.USER:", req.user);
+    console.log("AUTH SUCCESS USER ID:", user._id);
 
     next();
   } catch (error) {
-    throw new ApiError(401, error?.message || "Invalid Access Token");
+    throw new ApiError(
+      401,
+      error?.message || "Invalid or expired Access Token"
+    );
   }
 });
