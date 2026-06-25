@@ -970,3 +970,116 @@ rgba(159,47,47,.65)
 .lcd-blink {
   animation: lcdBlink 1.2s steps(1) infinite;
 }
+
+.crt-shell {
+  position: fixed;
+  inset: 0;
+  overflow: hidden;
+}
+
+/* Actual curved glass */
+.crt-glass {
+  position: absolute;
+  inset: -2%;
+
+  pointer-events: none;
+  z-index: 9998;
+
+  border-radius:
+    8% 8% 10% 10% /
+    6% 6% 12% 12%;
+
+  box-shadow:
+    inset 0 0 120px rgba(255,255,255,0.06),
+    inset 0 0 200px rgba(255,255,255,0.03),
+    inset 0 0 400px rgba(0,0,0,0.3);
+
+  background:
+    radial-gradient(
+      ellipse at center,
+      transparent 45%,
+      rgba(0,0,0,0.08) 75%,
+      rgba(0,0,0,0.28) 100%
+    );
+
+  transform:
+    perspective(1800px)
+    scale(1.02)
+    rotateX(0.2deg);
+}
+
+.crt-shell {
+  position: relative;
+  min-height: 100vh;
+}
+
+.crt-content {
+  position: relative;
+  z-index: 1;
+}
+
+.crt-glass,
+.crt-glare {
+  z-index: 2;
+  pointer-events: none;
+}
+
+.crt-glare {
+  position: absolute;
+  inset: 0;
+
+  pointer-events: none;
+  z-index: 9999;
+
+  background:
+    radial-gradient(
+      ellipse at 20% 10%,
+      rgba(255,255,255,0.18),
+      transparent 20%
+    ),
+
+    radial-gradient(
+      ellipse at 80% 15%,
+      rgba(255,255,255,0.07),
+      transparent 25%
+    ),
+
+    linear-gradient(
+      115deg,
+      rgba(255,255,255,0.18) 0%,
+      rgba(255,255,255,0.08) 12%,
+      transparent 25%
+    );
+}
+
+.crt-content {
+  min-height: 100vh;
+  transform: perspective(2200px);
+  filter: contrast(1.05) brightness(1.02);
+}
+
+.crt-glass {
+  backdrop-filter: blur(0.1px);
+  -webkit-backdrop-filter: blur(0.8px);
+}
+
+html {
+  background: linear-gradient(
+    180deg,
+    #585858 0%,
+    #3f3f3f 50%,
+    #2f2f2f 100%
+  );
+}
+
+body::after {
+  content: "";
+  position: fixed;
+  inset: 0;
+  pointer-events: none;
+  z-index: -1;
+
+  background:
+    linear-gradient(to bottom, #585858 25%, transparent 100%),
+    linear-gradient(to top, #2f2f2f 25%, transparent 100%);
+}

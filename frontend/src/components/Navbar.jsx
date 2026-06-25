@@ -71,7 +71,7 @@ const Navbar = () => {
                 lg:hidden
                 casio-btn
                 px-3
-                py-2
+                py-0.5
                 text-lg
                 cursor-pointer
               "

@@ -7,7 +7,7 @@ const Layout = () => {
       <Navbar />
 
       {/* This is where pages render */}
-      <main className="p-6">
+      <main className="p-2">
         <Outlet />
       </main>
     </>

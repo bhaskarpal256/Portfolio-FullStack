@@ -110,7 +110,7 @@ const Login = () => {
   };
 
   return (
-    <div className="min-h-screen relative flex items-center justify-center">
+    <div className="min-h-screen relative ">
       {/* Background Glow */}
 
       <div
@@ -123,20 +123,22 @@ const Login = () => {
       >
         <div
           className="
-            w-[40rem]
+             w-[40rem]
             h-[40rem]
             rounded-full
             bg-[#aaff78]
             blur-[12rem]
             mx-auto
             mt-20
+            animate-pulse
           "
         />
       </div>
 
       {/* Main Terminal */}
 
-      <div className="casio-panel w-full max-w-6xl p-2 md:p-4">
+     <div className="max-w-6xl mx-auto relative z-10">
+  <div className="casio-panel p-2 md:p-4">
         <div className="lcd-screen lcd-breathe">
           {/* Top Header */}
 
@@ -308,6 +310,7 @@ const Login = () => {
               </div>
             </div>
           </div>
+        </div>
         </div>
       </div>
     </div>
