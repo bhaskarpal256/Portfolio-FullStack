@@ -1059,7 +1059,7 @@ rgba(159,47,47,.65)
 }
 
 .crt-glass {
-  backdrop-filter: blur(0.1px);
+  backdrop-filter: blur(0.10px);
   -webkit-backdrop-filter: blur(0.8px);
 }
 
