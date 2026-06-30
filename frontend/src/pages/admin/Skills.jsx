@@ -8,7 +8,7 @@ import {
 import SkillFormModal from "../../components/SkillFormModal.jsx";
 import { showError, showLoading, showSuccess } from "../../utils/toast.js";
 import ConfirmModal from "../../components/ConfirmModal.jsx";
-import SkillCard from "../../components/SkillCard.jsx";
+import SkillCard from "../../components/cards/SkillCard.jsx";
 import { Controller } from "react-hook-form";
 import { CasioSelect } from "../../components/ui/CasioSelect.jsx";
 import LoadingScreen from "../../components/ui/LoadingScreen.jsx";
