@@ -3,7 +3,7 @@ import { getProjects, deleteProject } from "../../services/project.service.js";
 import ProjectFormModal from "../../components/ProjectFormModal.jsx";
 import ConfirmModal from "../../components/ConfirmModal.jsx";
 import { showError, showLoading, showSuccess } from "../../utils/toast.js";
-import ProjectCard from "../../components/ProjectCard.jsx";
+import ProjectCard from "../../components/cards/ProjectCard.jsx";
 import LoadingScreen from "../../components/ui/LoadingScreen.jsx";
 
 const ManageProjects = () => {
