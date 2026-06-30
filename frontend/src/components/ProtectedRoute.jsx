@@ -1,13 +1,13 @@
 import { Navigate, Outlet } from "react-router";
-import { useAuth } from "../context/AuthContext";
-import LoadingScreen from "./ui/LoadingScreen";
+import { useAuth } from "../context/AuthContext.jsx";
+import LoadingScreen from "./ui/LoadingScreen.jsx";
 
 const ProtectedRoute = () => {
     const { user, loading } = useAuth();
 
     if (loading) return (
     <LoadingScreen
-      title="LOADING"
+      title="LOGGING IN"
       subtitle="PLEASE WAIT..."
     />
   );
