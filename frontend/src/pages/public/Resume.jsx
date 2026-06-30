@@ -1,5 +1,6 @@
 import { useEffect, useState } from "react";
 import { getResume } from "../../services/resume.service.js";
+import LoadingScreen from "../../components/ui/LoadingScreen.jsx";
 
 const Resume = () => {
   const [resume, setResume] = useState(null);
@@ -7,12 +8,19 @@ const Resume = () => {
 
   useEffect(() => {
     const fetchResume = async () => {
+       const start = Date.now();
       try {
         const response = await getResume();
         setResume(response?.data?.data);
       } catch (error) {
         console.error(error);
       } finally {
+        const elapsed = Date.now() - start;
+
+        const remaining = Math.max(400 - elapsed, 0);
+
+        await new Promise((resolve) => setTimeout(resolve, remaining));
+
         setLoading(false);
       }
     };
@@ -20,15 +28,8 @@ const Resume = () => {
     fetchResume();
   }, []);
 
-  if (loading) {
-    return (
-      <div className="min-h-screen flex items-center justify-center">
-        <div className="lcd-screen p-6">
-          LOADING DOSSIER...
-        </div>
-      </div>
-    );
-  }
+  if (loading)
+    return <LoadingScreen title="RESUME" subtitle="LOADING RESUME..." />;
 
   if (!resume) {
     return (

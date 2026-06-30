@@ -6,6 +6,7 @@ import {
   markMessageAsRead,
   deleteMessage,
 } from "../../services/message.service.js";
+import LoadingScreen from "../../components/ui/LoadingScreen.jsx";
 
 const Messages = () => {
   const [messages, setMessages] = useState([]);
@@ -16,30 +17,40 @@ const Messages = () => {
     (message) => !message.isRead
   ).length;
 
-  const fetchMessages = async () => {
-    try {
-      const { data } = await getAllMessages();
+const fetchMessages = async () => {
+  const start = Date.now();
 
-      setMessages(data.data || []);
+  try {
+    const { data } = await getAllMessages();
 
-      if (data.data?.length > 0) {
-        setSelectedMessage((current) => {
-          if (!current) return data.data[0];
+    setMessages(data.data || []);
 
-          return (
-            data.data.find(
-              (msg) => msg._id === current._id
-            ) || data.data[0]
-          );
-        });
-      }
-    } catch (error) {
-      console.error(error);
-      toast.error("FAILED TO LOAD MESSAGES");
-    } finally {
-      setLoading(false);
+    if (data.data?.length > 0) {
+      setSelectedMessage((current) => {
+        if (!current) return data.data[0];
+
+        return (
+          data.data.find(
+            (msg) => msg._id === current._id
+          ) || data.data[0]
+        );
+      });
     }
-  };
+  } catch (error) {
+    console.error(error);
+    toast.error("FAILED TO LOAD MESSAGES");
+  } finally {
+    const elapsed = Date.now() - start;
+
+    const remaining = Math.max(400 - elapsed, 0);
+
+    await new Promise((resolve) =>
+      setTimeout(resolve, remaining)
+    );
+
+    setLoading(false);
+  }
+};
 
   useEffect(() => {
     fetchMessages();
@@ -83,19 +94,18 @@ const Messages = () => {
     }
   };
 
-  if (loading) {
-    return (
-      <div className="casio-panel p-4">
-        <div className="lcd-screen p-6">
-          LOADING TRANSMISSIONS...
-        </div>
-      </div>
-    );
-  }
+if (loading) {
+  return (
+    <LoadingScreen
+      title="MESSAGES"
+      subtitle="LOADING TRANSMISSIONS..."
+    />
+  );
+}
 
   return (
-    <div className="relative">
-      <div className="casio-panel p-4">
+    <div className="relative p-2 md:p-4">
+     
 
         <div className="lcd-screen lcd-breathe relative overflow-hidden">
 
@@ -126,15 +136,15 @@ const Messages = () => {
                 border-r
                 border-b
                 border-[#5d6e5d]
-                p-4
+                p-1.5
               "
             >
 
-              <h2 className="tracking-[0.25em] text-sm mb-4">
+              <h2 className="tracking-[0.25em] text-sm mb-2 md:mb-4">
                 TRANSMISSIONS
               </h2>
 
-              <div className="space-y-3 max-h-[70vh] overflow-y-auto pr-1">
+             <div className="space-y-3 max-h-[70vh] overflow-y-auto pr-1 tx-scroll">
 
                 {messages.length === 0 && (
                   <div
@@ -142,7 +152,7 @@ const Messages = () => {
                       border
                       border-[#5d6e5d]
                       rounded
-                      p-4
+                      p-2 md:p-4
                     "
                   >
                     NO MESSAGES FOUND
@@ -160,7 +170,8 @@ const Messages = () => {
                       text-left
                       border
                       rounded
-                      p-3
+                      p-2
+                      md:p-3
                       transition-all
                       border-[#5d6e5d]
                       cursor-pointer
@@ -286,7 +297,7 @@ const Messages = () => {
 
                     <a
                       href={`mailto:${selectedMessage.email}?subject=Re: ${selectedMessage.subject}`}
-                      className="casio-lcd-btn"
+                      className="casio-lcd-btn lcd-breathe"
                     >
                       REPLY VIA EMAIL
                     </a>
@@ -302,7 +313,7 @@ const Messages = () => {
 
                     <button
                       onClick={handleDelete}
-                      className="casio-btn px-2 cursor-pointer"
+                      className="casio-cancel-btn px-2 cursor-pointer"
                     >
                       DELETE
                     </button>
@@ -361,7 +372,7 @@ const Messages = () => {
 
         </div>
 
-      </div>
+
     </div>
   );
 };

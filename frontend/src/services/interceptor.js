@@ -1,19 +1,15 @@
-// interceptor.js
 import { api } from "./api.js";
-import { refreshAccessToken } from "./auth.service.js";
+import { refreshAccessToken, logoutUser } from "./auth.service.js";
 
 let isRefreshing = false;
 let failedQueue = [];
 
-/**
- * Resolve or reject all queued requests
- */
 const processQueue = (error) => {
-  failedQueue.forEach((promise) => {
+  failedQueue.forEach(({ resolve, reject }) => {
     if (error) {
-      promise.reject(error);
+      reject(error);
     } else {
-      promise.resolve();
+      resolve();
     }
   });
 
@@ -26,19 +22,19 @@ api.interceptors.response.use(
   async (error) => {
     const originalRequest = error.config;
 
-    // Not a 401 → pass through
+    // If no response or not 401 → just pass error
     if (!error.response || error.response.status !== 401) {
       return Promise.reject(error);
     }
 
-    // Already retried once → don't loop forever
+    // Prevent infinite retry loop
     if (originalRequest._retry) {
       return Promise.reject(error);
     }
 
     originalRequest._retry = true;
 
-    // Refresh already running → queue request
+    // If refresh already running → queue request
     if (isRefreshing) {
       return new Promise((resolve, reject) => {
         failedQueue.push({ resolve, reject });
@@ -50,10 +46,16 @@ api.interceptors.response.use(
     isRefreshing = true;
 
     try {
-      // Refresh access token
-      await refreshAccessToken();
+      // Refresh token request
+      const res = await refreshAccessToken();
 
-      // Retry all queued requests
+      const newAccessToken = res?.data?.data?.accessToken;
+
+      if (newAccessToken) {
+        localStorage.setItem("accessToken", newAccessToken);
+      }
+
+      // Retry queued requests
       processQueue(null);
 
       // Retry original request
@@ -62,18 +64,17 @@ api.interceptors.response.use(
       // Reject queued requests
       processQueue(refreshError);
 
-      // Refresh token invalid/expired
+      // Logout safely
       try {
         await logoutUser();
-      } catch {}
+      } catch (e) {}
 
+      // Clear storage
       localStorage.clear();
-
-      return Promise.reject(refreshError);
 
       return Promise.reject(refreshError);
     } finally {
       isRefreshing = false;
     }
-  },
+  }
 );

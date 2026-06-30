@@ -57,22 +57,24 @@ const Sidebar = ({ isOpen, setIsOpen }) => {
   return (
     <>
       {/* DESKTOP SIDEBAR */}
-     <aside
+   <aside
   className="
     hidden
     md:flex
-    flex-col
-    w-72
-    h-screen
-    sticky
+    fixed
     top-0
+    left-0
+    h-screen
+    w-[var(--sidebar-width)]
+    flex-col
     p-4
     bg-[#3b3b3b]
     border-r-4
     border-[#666]
+    shadow-[inset_0_0_20px_rgba(0,0,0,.4)]
   "
 >
-        {/* LCD HEADER */}
+        {/* LCD HEADER (UNCHANGED VISUAL SIZE) */}
         <div className="lcd-screen p-4 mb-6">
           <h2 className="casio-display text-5xl leading-none">
             ADMIN
@@ -98,23 +100,23 @@ const Sidebar = ({ isOpen, setIsOpen }) => {
         <NavLink to="/">
           <div
             className="
-            bg-[#4a4a4a]
-            border-2
-            border-[#222]
-            text-center
-            py-3
-            text-sm
-            tracking-widest
-            text-white
-            hover:bg-[#5b5b5b]
-          "
+              bg-[#4a4a4a]
+              border-2
+              border-[#222]
+              text-center
+              py-3
+              text-sm
+              tracking-widest
+              text-white
+              hover:bg-[#5b5b5b]
+            "
           >
             ← VIEW PORTFOLIO
           </div>
         </NavLink>
       </aside>
 
-      {/* MOBILE DRAWER */}
+      {/* MOBILE DRAWER (UNCHANGED STRUCTURE, ONLY WIDTH CLAMPED) */}
       {isOpen && (
         <div
           className="fixed inset-0 bg-black/60 z-50 md:hidden"
@@ -122,24 +124,24 @@ const Sidebar = ({ isOpen, setIsOpen }) => {
         >
           <div
             className="
-            w-72
-            h-full
-            bg-[#3b3b3b]
-            border-r-4
-            border-[#666]
-            p-4
-          "
+              w-[clamp(16rem,80vw,20rem)]
+              h-full
+              bg-[#3b3b3b]
+              border-r-4
+              border-[#666]
+              p-4
+            "
             onClick={(e) => e.stopPropagation()}
           >
             <button
               type="button"
               className="
-              w-full
-              text-right
-              text-2xl
-              mb-4
-              text-white
-            "
+                w-full
+                text-right
+                text-2xl
+                mb-4
+                text-white
+              "
               onClick={() => setIsOpen(false)}
             >
               ✕
@@ -155,9 +157,7 @@ const Sidebar = ({ isOpen, setIsOpen }) => {
               </p>
             </div>
 
-            <SidebarLinks
-              onNavigate={() => setIsOpen(false)}
-            />
+            <SidebarLinks onNavigate={() => setIsOpen(false)} />
 
             <div className="lcd-screen p-3 text-xs mt-6 mb-4">
               <div>BATTERY ████████ 92%</div>
@@ -166,21 +166,18 @@ const Sidebar = ({ isOpen, setIsOpen }) => {
               <div>MODE ADMIN</div>
             </div>
 
-            <NavLink
-              to="/"
-              onClick={() => setIsOpen(false)}
-            >
+            <NavLink to="/" onClick={() => setIsOpen(false)}>
               <div
                 className="
-                bg-[#4a4a4a]
-                border-2
-                border-[#222]
-                text-center
-                py-3
-                text-sm
-                tracking-widest
-                text-white
-              "
+                  bg-[#4a4a4a]
+                  border-2
+                  border-[#222]
+                  text-center
+                  py-3
+                  text-sm
+                  tracking-widest
+                  text-white
+                "
               >
                 ← VIEW PORTFOLIO
               </div>

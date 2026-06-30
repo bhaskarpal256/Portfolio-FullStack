@@ -2,14 +2,9 @@ import { api } from "./api.js";
 import { refreshClient } from "./refreshClient.js";
 
 // Login
-export const loginUser = async (credentials) => {
-  const res = await api.post("/users/login", credentials);
-
-  const accessToken = res.data.data.accessToken;
-
-  localStorage.setItem("accessToken", accessToken);
-
-  return res.data;
+export const loginUser = (credentials) => {
+  console.log("LOGIN REQUEST");
+  return api.post("/users/login", credentials);
 };
 
 // Logout
@@ -22,6 +17,8 @@ export const getCurrentUser = () =>
 
 // Refresh token
 export const refreshAccessToken = () =>
-  refreshClient.post("/users/refresh-token");
+  refreshClient.post("/users/refresh-token", {}, {
+    withCredentials: true
+  });
 
 

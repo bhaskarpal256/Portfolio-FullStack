@@ -1,6 +1,7 @@
 import { useEffect, useState } from "react";
 import { Link, useParams } from "react-router";
 import { getProjectById } from "../../services/project.service.js";
+import LoadingScreen from "../../components/ui/LoadingScreen.jsx";
 
 const ProjectDetails = () => {
   useEffect(() => {
@@ -16,7 +17,9 @@ const ProjectDetails = () => {
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
+    setLoading(true);
     const fetchProject = async () => {
+      const start = Date.now();
       try {
         const response = await getProjectById(id);
 
@@ -24,7 +27,15 @@ const ProjectDetails = () => {
       } catch (error) {
         console.error(error);
       } finally {
-        setLoading(false);
+         const elapsed = Date.now() - start;
+
+    const remaining = Math.max(400 - elapsed, 0);
+
+    await new Promise((resolve) =>
+      setTimeout(resolve, remaining)
+    );
+
+    setLoading(false);
       }
     };
 
@@ -32,12 +43,13 @@ const ProjectDetails = () => {
   }, [id]);
 
   if (loading) {
-    return (
-      <div className="min-h-screen flex items-center justify-center">
-        <div className="casio-display text-2xl">LOADING DOSSIER...</div>
-      </div>
-    );
-  }
+  return (
+   <LoadingScreen
+    title="PROJECT"
+    subtitle="LOADING PROJECT..."
+/>
+  );
+}
 
   if (!project) {
     return (

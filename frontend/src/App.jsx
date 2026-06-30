@@ -1,6 +1,5 @@
 import { Route, Routes } from "react-router";
 import Home from "./pages/public/Home.jsx";
-import About from "./pages/public/About.jsx";
 import Projects from "./pages/public/Projects.jsx";
 import ProjectDetails from "./pages/public/ProjectDetails.jsx";
 import Resume from "./pages/public/Resume.jsx";
@@ -27,7 +26,6 @@ function App() {
       {/* Public Routes */}
       <Route element={ <Layout /> }>
       <Route path="/" element={<Home />} />
-      <Route path="/about" element={<About />} />
       <Route path="/projects" element={<Projects />} />
       <Route path="/projects/:id" element={<ProjectDetails />} />
       <Route path="/resume" element={<Resume />} />

@@ -1,9 +1,36 @@
-import { useState } from "react";
+import { useState,useEffect } from "react";
 import toast from "react-hot-toast";
 import { sendMessage } from "../../services/message.service.js";
+import { getResume } from "../../services/resume.service.js";
+import LoadingScreen from "../../components/ui/LoadingScreen.jsx";
 
 const Contact = () => {
   const [sending, setSending] = useState(false);
+  const [resume, setResume] = useState(null);
+  const [loading, setLoading] = useState(true);
+
+  useEffect(() => {
+    const fetchResume = async () => {
+      const start = Date.now();
+      try {
+        const { data } = await getResume();
+        setResume(data.data);
+        console.log(data.data);
+      } catch (err) {
+        console.error(err);
+      } finally {
+        const elapsed = Date.now() - start;
+
+        const remaining = Math.max(400 - elapsed, 0);
+
+        await new Promise((resolve) => setTimeout(resolve, remaining));
+
+        setLoading(false);
+      }
+    };
+
+    fetchResume();
+  }, []);
 
   const [formData, setFormData] = useState({
     name: "",
@@ -69,6 +96,11 @@ const Contact = () => {
       setSending(false);
     }
   };
+
+    if (loading) {
+    return <LoadingScreen title="CONTACT" subtitle="LOADING CONTACT..." />;
+  }
+
 
   return (
     <div className="min-h-screen relative md:px-6">
@@ -139,14 +171,14 @@ const Contact = () => {
 
                 <div className="space-y-3">
                   <a
-                    href="mailto:your@email.com"
+                    href="mailto:bhaskarpal256@gmail.com"
                     className="casio-btn block text-center py-2"
                   >
                     EMAIL
                   </a>
 
                   <a
-                    href="https://linkedin.com"
+                    href={resume.links?.linkedin}
                     target="_blank"
                     rel="noreferrer"
                     className="casio-btn block text-center py-2"
@@ -155,21 +187,12 @@ const Contact = () => {
                   </a>
 
                   <a
-                    href="https://github.com"
+                    href={resume.links?.github}
                     target="_blank"
                     rel="noreferrer"
                     className="casio-btn block text-center py-2"
                   >
                     GITHUB
-                  </a>
-
-                  <a
-                    href="https://instagram.com"
-                    target="_blank"
-                    rel="noreferrer"
-                    className="casio-btn block text-center py-2"
-                  >
-                    INSTAGRAM
                   </a>
                 </div>
               </div>

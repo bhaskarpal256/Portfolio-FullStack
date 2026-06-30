@@ -1,21 +1,27 @@
 import { Outlet } from "react-router";
+import { useState } from "react";
 import Sidebar from "./admin/Sidebar.jsx";
 import Topbar from "./admin/Topbar.jsx";
 
 const AdminLayout = () => {
-  return (
-    <div className="min-h-screen flex">
-      
-      <Sidebar />
+  const [isOpen, setIsOpen] = useState(false);
 
-      <div className="flex-1 flex flex-col">
-        <Topbar />
-        
-        <main className="p-2 md:p-4">
+  return (
+    <div
+      className="min-h-screen"
+      style={{
+        "--sidebar-width": "clamp(16rem,18vw,20rem)",
+      }}
+    >
+      <Sidebar isOpen={isOpen} setIsOpen={setIsOpen} />
+
+      <div className="md:ml-[var(--sidebar-width)]">
+        <Topbar setIsOpen={setIsOpen} />
+
+        <main>
           <Outlet />
         </main>
       </div>
-
     </div>
   );
 };

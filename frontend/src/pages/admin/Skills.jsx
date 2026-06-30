@@ -11,6 +11,7 @@ import ConfirmModal from "../../components/ConfirmModal.jsx";
 import SkillCard from "../../components/SkillCard.jsx";
 import { Controller } from "react-hook-form";
 import { CasioSelect } from "../../components/ui/CasioSelect.jsx";
+import LoadingScreen from "../../components/ui/LoadingScreen.jsx";
 
 const Skills = () => {
   const [skills, setSkills] = useState([]);
@@ -26,6 +27,7 @@ const Skills = () => {
 
   useEffect(() => {
     const fetchSkills = async () => {
+      const start = Date.now();
       try {
         console.log("Calling API...");
         const { data } = await getSkills();
@@ -34,7 +36,15 @@ const Skills = () => {
       } catch (error) {
         console.error(error);
       } finally {
-        setLoading(false);
+        const elapsed = Date.now() - start;
+
+    const remaining = Math.max(400 - elapsed, 0);
+
+    await new Promise((resolve) =>
+      setTimeout(resolve, remaining)
+    );
+
+    setLoading(false);
       }
     };
     fetchSkills();
@@ -125,19 +135,25 @@ const Skills = () => {
     [skills, filter, debouncedSearch, category],
   );
 
+  if (loading) return (<LoadingScreen
+    title="SKILLS"
+    subtitle="LOADING SKILLS..."
+/>);
+
   return (
   <>
-    <div className="p-6 space-y-6">
+    <div className="p-4 space-y-4 ">
 
       {/* HEADER */}
-      <div className="lcd-screen">
-        <h2 className="text-5xl casio-display leading-none">
+      <div className="lcd-screen p-4 inline-block">
+        <p className="text-[0.625rem] tracking-[0.25em] opacity-70">
+          SYSTEM RECORDS
+        </p>
+
+        <h2 className="text-3xl tracking-[0.2em]">
           SKILL DATABASE
         </h2>
 
-        <p className="text-xs tracking-[0.25em] mt-2">
-          SYSTEM RECORDS
-        </p>
       </div>
 
       {/* LOADING / EMPTY */}
@@ -223,9 +239,9 @@ const Skills = () => {
           ))}
         </div>
 
-        <div className="mt-6 pt-4 border-t border-[#5d6e5d]">
+        <div className="mt-6 pt-4 border-t border-[#5d6e5d] ">
           <button
-            className="casio-lcd-btn"
+            className="casio-lcd-btn lcd-screen lcd-breathe cursor-pointer"
             onClick={() => setShowSkillFormModal(true)}
           >
             + ADD SKILL

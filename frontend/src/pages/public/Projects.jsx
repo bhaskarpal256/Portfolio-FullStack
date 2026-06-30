@@ -2,6 +2,7 @@ import { useEffect, useMemo, useState } from "react";
 import { Link } from "react-router";
 import { getProjects } from "../../services/project.service.js";
 import ProjectDetails from "./ProjectDetails.jsx";
+import LoadingScreen from "../../components/ui/LoadingScreen.jsx";
 
 const Projects = () => {
   const [projects, setProjects] = useState([]);
@@ -12,6 +13,7 @@ const Projects = () => {
 
   useEffect(() => {
     const fetchProjects = async () => {
+      const start = Date.now();
       try {
         const response = await getProjects();
 
@@ -19,6 +21,12 @@ const Projects = () => {
       } catch (error) {
         console.error(error);
       } finally {
+        const elapsed = Date.now() - start;
+
+        const remaining = Math.max(400 - elapsed, 0);
+
+        await new Promise((resolve) => setTimeout(resolve, remaining));
+
         setLoading(false);
       }
     };
@@ -30,31 +38,27 @@ const Projects = () => {
     const totalProjects = projects.length;
 
     const featuredProjects = projects.filter(
-      (project) => project.isFeatured
+      (project) => project.isFeatured,
     ).length;
 
     const techFrequency = {};
 
     projects.forEach((project) => {
       project.techStack?.forEach((tech) => {
-        techFrequency[tech] =
-          (techFrequency[tech] || 0) + 1;
+        techFrequency[tech] = (techFrequency[tech] || 0) + 1;
       });
     });
 
-    const totalTechnologies =
-      Object.keys(techFrequency).length;
+    const totalTechnologies = Object.keys(techFrequency).length;
 
     const healthScore =
       totalProjects > 0
         ? Math.min(
             100,
             Math.round(
-              ((featuredProjects +
-                totalTechnologies) /
-                (totalProjects * 2)) *
-                100
-            )
+              ((featuredProjects + totalTechnologies) / (totalProjects * 2)) *
+                100,
+            ),
           )
         : 0;
 
@@ -69,28 +73,24 @@ const Projects = () => {
   const filteredProjects = useMemo(() => {
     return projects.filter((project) => {
       const matchesSearch =
-        project.title
-          .toLowerCase()
-          .includes(search.toLowerCase()) ||
-        project.description
-          .toLowerCase()
-          .includes(search.toLowerCase()) ||
+        project.title.toLowerCase().includes(search.toLowerCase()) ||
+        project.description.toLowerCase().includes(search.toLowerCase()) ||
         project.techStack?.some((tech) =>
-          tech
-            .toLowerCase()
-            .includes(search.toLowerCase())
+          tech.toLowerCase().includes(search.toLowerCase()),
         );
 
-      const matchesFeatured =
-        !featuredOnly || project.isFeatured;
+      const matchesFeatured = !featuredOnly || project.isFeatured;
 
       return matchesSearch && matchesFeatured;
     });
   }, [projects, search, featuredOnly]);
 
+  if (loading) {
+    return <LoadingScreen title="PROJECTS" subtitle="LOADING PROJECTS..." />;
+  }
+
   return (
     <div className="min-h-screen relative">
-
       {/* Glow */}
 
       <div
@@ -116,15 +116,11 @@ const Projects = () => {
       </div>
 
       <div className="max-w-5xl mx-auto relative z-10">
-
         <div className="casio-panel p-2 md:p-4">
-
           <div className="lcd-screen lcd-breathe">
-
             {/* HEADER */}
 
             <div className="border-b border-[#5d6e5d]">
-
               <p className="text-[0.625rem] tracking-[0.35em] opacity-70">
                 PROJECT DATABASE
               </p>
@@ -138,17 +134,13 @@ const Projects = () => {
               >
                 PROJECT RECORDS
               </h1>
-
             </div>
 
             {/* ANALYTICS */}
 
             <div className="grid sm:grid-cols-2 xl:grid-cols-4 gap-4 mt-4">
-
               <div className="border border-[#5d6e5d] rounded py-2 px-4">
-                <p className="text-xs opacity-70">
-                  PROJECTS
-                </p>
+                <p className="text-xs opacity-70">PROJECTS</p>
 
                 <p className="casio-display text-3xl">
                   {analytics.totalProjects}
@@ -156,9 +148,7 @@ const Projects = () => {
               </div>
 
               <div className="border border-[#5d6e5d] rounded py-2 px-4">
-                <p className="text-xs opacity-70">
-                  FEATURED
-                </p>
+                <p className="text-xs opacity-70">FEATURED</p>
 
                 <p className="casio-display text-3xl">
                   {analytics.featuredProjects}
@@ -166,9 +156,7 @@ const Projects = () => {
               </div>
 
               <div className="border border-[#5d6e5d] rounded py-2 px-4">
-                <p className="text-xs opacity-70">
-                  TECHS
-                </p>
+                <p className="text-xs opacity-70">TECHS</p>
 
                 <p className="casio-display text-3xl">
                   {analytics.totalTechnologies}
@@ -176,67 +164,49 @@ const Projects = () => {
               </div>
 
               <div className="border border-[#5d6e5d] rounded py-2 px-4">
-                <p className="text-xs opacity-70">
-                  HEALTH
-                </p>
+                <p className="text-xs opacity-70">HEALTH</p>
 
                 <p className="casio-display text-3xl">
                   {analytics.healthScore}%
                 </p>
               </div>
-
             </div>
 
             {/* SEARCH */}
 
             <div className="border border-[#5d6e5d] rounded p-4 mt-4">
-
               <p className="tracking-[0.2em] text-sm opacity-70 mb-2">
                 SEARCH RECORDS
               </p>
 
               <div className="flex flex-col md:flex-row gap-3">
-
                 <input
                   type="text"
                   placeholder="Search projects..."
                   value={search}
-                  onChange={(e) =>
-                    setSearch(e.target.value)
-                  }
+                  onChange={(e) => setSearch(e.target.value)}
                   className="casio-input flex-1"
                 />
 
                 <button
-                  onClick={() =>
-                    setFeaturedOnly(
-                      !featuredOnly
-                    )
-                  }
+                  onClick={() => setFeaturedOnly(!featuredOnly)}
                   className={`
                     casio-btn
                     px-4
                     py-2
                     text-xs
                     tracking-[0.2em]
-                    ${
-                      featuredOnly
-                        ? "brightness-110"
-                        : ""
-                    }
+                    ${featuredOnly ? "brightness-110" : ""}
                   `}
                 >
                   FEATURED
                 </button>
-
               </div>
-
             </div>
 
             {/* PROJECT GRID */}
 
             <div className="mt-4">
-
               <p className="tracking-[0.2em] text-sm opacity-70 mb-4">
                 DATABASE RECORDS
               </p>
@@ -259,11 +229,10 @@ const Projects = () => {
                     gap-4
                   "
                 >
-                  {filteredProjects.map(
-                    (project) => (
-                      <div
-                        key={project._id}
-                        className="
+                  {filteredProjects.map((project) => (
+                    <div
+                      key={project._id}
+                      className="
                           border
                           border-[#5d6e5d]
                           rounded
@@ -271,38 +240,31 @@ const Projects = () => {
                           flex
                           flex-col
                         "
-                      >
+                    >
+                      {/* IMAGE */}
 
-                        {/* IMAGE */}
-
-                        <div className="aspect-video overflow-hidden border-b border-[#5d6e5d]">
-
-                          <img
-                            src={
-                              project.imageUrl?.url
-                            }
-                            alt={project.title}
-                            className="
+                      <div className="aspect-video overflow-hidden border-b border-[#5d6e5d]">
+                        <img
+                          src={project.imageUrl?.url}
+                          alt={project.title}
+                          className="
                               w-full
                               h-full
                               object-cover
                             "
-                          />
+                        />
+                      </div>
 
-                        </div>
+                      {/* CONTENT */}
 
-                        {/* CONTENT */}
+                      <div className="p-4 flex flex-col flex-1">
+                        <div className="flex justify-between items-start">
+                          <h2 className="casio-display text-xl">
+                            {project.title}
+                          </h2>
 
-                        <div className="p-4 flex flex-col flex-1">
-
-                          <div className="flex justify-between items-start">
-
-                            <h2 className="casio-display text-xl">
-                              {project.title}
-                            </h2>
-
-                            <div
-                              className={`
+                          <div
+                            className={`
                                 w-3
                                 h-3
                                 rounded-full
@@ -312,46 +274,38 @@ const Projects = () => {
                                     : "bg-[#4a5a45]"
                                 }
                               `}
-                            />
+                          />
+                        </div>
 
-                          </div>
+                        <p className="text-xs opacity-70 mt-1">
+                          {project.category}
+                        </p>
 
-                          <p className="text-xs opacity-70 mt-1">
-                            {project.category}
-                          </p>
+                        <p className="text-sm mt-4 line-clamp-3">
+                          {project.description}
+                        </p>
 
-                          <p className="text-sm mt-4 line-clamp-3">
-                            {
-                              project.description
-                            }
-                          </p>
-
-                          <div className="flex flex-wrap gap-2 mt-4">
-
-                            {project.techStack?.map(
-                              (tech) => (
-                                <span
-                                  key={tech}
-                                  className="
+                        <div className="flex flex-wrap gap-2 mt-4">
+                          {project.techStack?.map((tech) => (
+                            <span
+                              key={tech}
+                              className="
                                     border
                                     border-[#5d6e5d]
                                     px-2
                                     py-1
                                     text-xs
                                   "
-                                >
-                                  {tech}
-                                </span>
-                              )
-                            )}
+                            >
+                              {tech}
+                            </span>
+                          ))}
+                        </div>
 
-                          </div>
-
-                          <div className="mt-auto pt-5">
-
-                            <Link
-                              to={`/projects/${project._id}`}
-                              className="
+                        <div className="mt-auto pt-5">
+                          <Link
+                            to={`/projects/${project._id}`}
+                            className="
                                 casio-btn
                                 inline-flex
                                 px-4
@@ -359,28 +313,19 @@ const Projects = () => {
                                 text-xs
                                 tracking-[0.25em]
                               "
-                            >
-                              VIEW DOSSIER
-                            </Link>
-
-                          </div>
-
+                          >
+                            VIEW DOSSIER
+                          </Link>
                         </div>
-
                       </div>
-                    )
-                  )}
+                    </div>
+                  ))}
                 </div>
               )}
-
             </div>
-
           </div>
-
         </div>
-
       </div>
-
     </div>
   );
 };

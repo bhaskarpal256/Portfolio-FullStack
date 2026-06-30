@@ -1,13 +1,15 @@
 import { NavLink } from "react-router";
 import { getResume } from "../../services/resume.service";
 import { useEffect, useState } from "react";
+import LoadingScreen from "../../components/ui/LoadingScreen"
 
 const Home = () => {
-
   const [resume, setResume] = useState(null);
+  const [loading, setLoading] = useState(true);
 
   useEffect(() => {
   const fetchResume = async() => {
+     const start = Date.now();
     try {
       const response = await getResume();
       setResume(response.data.data);
@@ -15,10 +17,21 @@ const Home = () => {
 
     } catch (error) {
       console.error(error);
+    } finally {
+      const elapsed = Date.now() - start;
+
+        const remaining = Math.max(400 - elapsed, 0);
+
+        await new Promise((resolve) => setTimeout(resolve, remaining));
+
+        setLoading(false);
     }
   } 
   fetchResume();
 }, [])
+
+ if (loading)
+    return <LoadingScreen title="HOME" subtitle="LOADING HOME..." />;
 
   return (
     <div className="min-h-screen relative">

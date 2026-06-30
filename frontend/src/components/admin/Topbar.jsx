@@ -13,19 +13,19 @@ const Topbar = ({ setIsOpen }) => {
 
   return (
     <header
-      className="
-        h-[72px]
-        px-4
-        md:px-6
-        flex
-        items-center
-        justify-between
-        bg-[#3a3a3a]
-        border-b-4
-        border-[#686868]
-        shadow-[inset_0_-3px_8px_rgba(0,0,0,.35)]
-      "
-    >
+  className="
+    h-[clamp(4rem,6vw,4.5rem)]
+    w-full
+    px-[clamp(1rem,2vw,1.5rem)]
+    flex
+    items-center
+    justify-between
+    bg-[#3a3a3a]
+    border-b-4
+    border-[#686868]
+    shadow-[inset_0_-3px_8px_rgba(0,0,0,.35)]
+  "
+>
       {/* LEFT */}
       <div className="flex items-center gap-4">
         <button
@@ -75,7 +75,6 @@ const Topbar = ({ setIsOpen }) => {
         <Link to="/" className="casio-btn px-3 py-2 text-xs tracking-widest">
           SITE
         </Link>
-        i
         <button
           onClick={handleLogout}
           className="

@@ -1053,3 +1053,56 @@ body::after {
     linear-gradient(to top, #2f2f2f 25%, transparent 100%);
 }
 
+
+.transmission-scrollbar::-webkit-scrollbar {
+  width: 16px; /* default-ish size */
+}
+
+.transmission-scrollbar::-webkit-scrollbar-track {
+  background: initial;
+}
+
+.transmission-scrollbar::-webkit-scrollbar-thumb {
+  background: initial;
+  border-radius: 0;
+}
+
+/* Firefox reset */
+.transmission-scrollbar {
+  scrollbar-width: auto;
+  scrollbar-color: auto;
+}
+
+.tx-scroll::-webkit-scrollbar {
+  width: 4px; /* thinner ONLY for this section */
+}
+
+.tx-scroll::-webkit-scrollbar-thumb {
+  background: #5d6e5d;
+  border-radius: 10px;
+}
+
+.tx-scroll::-webkit-scrollbar-track {
+  background: transparent; /* ✅ no white background */
+}
+
+/* Firefox */
+.tx-scroll {
+  scrollbar-width: thin;
+  scrollbar-color: #5d6e5d transparent; /* thumb + track */
+}
+
+@keyframes loading {
+  0% {
+    width: 10%;
+  }
+
+  50% {
+    width: 70%;
+  }
+
+  100% {
+    width: 100%;
+  }
+}
+

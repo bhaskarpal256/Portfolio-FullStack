@@ -9,6 +9,7 @@ import { showError, showLoading, showSuccess } from "../../utils/toast.js";
 import ExperienceItem from "../../components/ExperienceItem.jsx";
 import EducationItem from "../../components/EducationItem.jsx";
 import { CasioSelect } from "../../components/ui/CasioSelect.jsx";
+import LoadingScreen from "../../components/ui/LoadingScreen.jsx";
 
 const ResumeUpdate = () => {
   const [resume, setResume] = useState(null);
@@ -56,7 +57,9 @@ const ResumeUpdate = () => {
   });
 
   useEffect(() => {
+console.log("Resume mounted");
     const fetchResume = async () => {
+      const start = Date.now();
       try {
         const { data } = await getResume();
         const formattedData = {
@@ -72,12 +75,30 @@ const ResumeUpdate = () => {
       } catch (error) {
         console.error(error);
       } finally {
-        setLoading(false);
+        const elapsed = Date.now() - start;
+
+    const remaining = Math.max(400 - elapsed, 0);
+
+    await new Promise((resolve) =>
+      setTimeout(resolve, remaining)
+    );
+
+    setLoading(false);
       }
     };
 
     fetchResume();
   }, [reset]);
+
+
+  if (loading) {
+  return (
+    <LoadingScreen
+    title="RESUME"
+    subtitle="LOADING RESUME..."
+/>
+  );
+}
 
   const onSubmit = async (data) => {
     let toastId;
@@ -111,10 +132,10 @@ const ResumeUpdate = () => {
     }
   };
 
-  if (loading) return <p>Loading resume...</p>;
+
 
   return (
-    <div className="">
+    <div className="p-2 md:p-4">
       <div className="p-6 lcd-screen lcd-breathe casio-display">
         <h2 className="text-xl font-bold mb-4">Manage Resume</h2>
 
