@@ -1,4 +1,4 @@
-import { asyncHandler } from "../utils/asyncHandler.js";
+ import { asyncHandler } from "../utils/asyncHandler.js";
 import { ApiError } from "../utils/ApiError.js";
 import { ApiResponse } from "../utils/ApiResponse.js";
 import { User } from "../models/user.model.js";
@@ -69,7 +69,7 @@ const loginUser = asyncHandler(async (req, res) => {
   //Options is used so that cookies can only be modified by the server without it (if false) even front-end can modify the cookies
   const options = {
   httpOnly: true,
-  secure: true,        // MUST be HTTPS
+  secure: false,        // MUST be HTTPS
   sameSite: "none"     // REQUIRED for cross-site
 };
 
@@ -98,7 +98,7 @@ const logoutUser = asyncHandler(async (req, res) => {
 
     const options = {
   httpOnly: true,
-  secure: true,        // MUST be HTTPS
+  secure: false,        // MUST be HTTPS
   sameSite: "none"     // REQUIRED for cross-site
 };
   } catch (error) {
@@ -158,10 +158,10 @@ const refreshAccessToken = asyncHandler(async (req, res) => {
 
     const options = {
   httpOnly: true,
-  secure: true,        // MUST be HTTPS
+  secure: false,        // MUST be HTTPS
   sameSite: "none"     // REQUIRED for cross-site
 };
-
+e
     return res
       .status(200)
       .cookie("accessToken", accessToken, options)
