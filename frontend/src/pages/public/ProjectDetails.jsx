@@ -60,7 +60,7 @@ const ProjectDetails = () => {
   }
 
   return (
-    <div className="min-h-screen relative overflow-hidden px-4 md:px-6 ">
+    <div className="min-h-screen relative">
       {/* BREATHING GLOW */}
 
       <div
@@ -86,21 +86,27 @@ const ProjectDetails = () => {
       </div>
 
       <div className="max-w-5xl mx-auto relative z-10">
-        <div className="casio-panel p-4">
+        <div className="casio-panel p-2 md:p-4">
           <div className="lcd-screen lcd-breathe">
             {/* HEADER */}
 
-            <div className="border-b border-[#5d6e5d] pb-2">
+            <div className="border-b border-[#5d6e5d] pb-4">
+              <p className="text-[0.625rem] tracking-[0.35em] opacity-70 mb-1">
+                PROJECT DOSSIER
+              </p>
+
               <h1
                 className="
-                   casio-display
+                  casio-display
                   text-[clamp(2rem,4vw,2.5rem)]
-                  tracking-[0.15em]"
+                  tracking-[0.10em]
+                  leading-none
+                "
               >
                 {project.title}
               </h1>
 
-              <div className="flex items-center gap-3 ">
+              <div className="flex items-center gap-3 mt-2">
                 <div
                   className={`
                     w-3
@@ -124,35 +130,36 @@ const ProjectDetails = () => {
 
             {/* VISUAL REFERENCE + SYSTEM LINKS */}
 
-            <div className="grid lg:grid-cols-[1fr_320px] gap-0 mt-4">
+            <div className="grid lg:grid-cols-[1fr_320px] gap-4 mt-4">
               {/* VISUAL REFERENCE */}
 
-              <div className="border border-[#5d6e5d] overflow-hidden">
+              <div className="border border-[#5d6e5d] rounded overflow-hidden flex flex-col">
                 <div className="border-b border-[#5d6e5d] p-2">
                   <p className="tracking-[0.2em] text-sm opacity-70">
                     VISUAL REFERENCE
                   </p>
                 </div>
 
-                <div className="flex-1 flex items-center justify-center">
+                <div className="flex-1 flex items-center justify-center p-4">
                   <div
                     className="
-          w-full
-          aspect-video
-          overflow-hidden
-          border-2
-          border-[#5d6e5d]
-          shadow-[inset_0_0_25px_rgba(0,0,0,.4)]
-        "
+                      w-full
+                      aspect-video
+                      overflow-hidden
+                      border-2
+                      border-[#5d6e5d]
+                      shadow-[inset_0_0_25px_rgba(0,0,0,.4)]
+                      rounded
+                    "
                   >
                     <img
                       src={project.imageUrl?.url}
                       alt={project.title}
                       className="
-            w-full
-            h-full
-            object-cover
-          "
+                        w-full
+                        h-full
+                        object-cover
+                      "
                     />
                   </div>
                 </div>
@@ -160,8 +167,8 @@ const ProjectDetails = () => {
 
               {/* SYSTEM LINKS */}
 
-              <div className="border-y border-r border-[#5d6e5d] overflow-hidden">
-                <div className="border-b border-[#5d6e5d] p-2 ">
+              <div className="border border-[#5d6e5d] rounded overflow-hidden">
+                <div className="border-b border-[#5d6e5d] p-2">
                   <p className="tracking-[0.2em] text-sm opacity-70">
                     SYSTEM LINKS
                   </p>
@@ -174,12 +181,13 @@ const ProjectDetails = () => {
                       target="_blank"
                       rel="noreferrer"
                       className="
-            casio-btn
-            px-5
-            py-3
-            text-xs
-            tracking-[0.25em]
-          "
+                        casio-btn
+                        px-5
+                        py-3
+                        text-xs
+                        tracking-[0.25em]
+                        text-center
+                      "
                     >
                       LIVE SYSTEM
                     </a>
@@ -191,12 +199,13 @@ const ProjectDetails = () => {
                       target="_blank"
                       rel="noreferrer"
                       className="
-            casio-btn
-            px-5
-            py-3
-            text-xs
-            tracking-[0.25em]
-          "
+                        casio-btn
+                        px-5
+                        py-3
+                        text-xs
+                        tracking-[0.25em]
+                        text-center
+                      "
                     >
                       SOURCE CODE
                     </a>
@@ -205,16 +214,18 @@ const ProjectDetails = () => {
                   <Link
                     to="/projects"
                     className="
-          casio-btn
-          px-5
-          py-3
-          text-xs
-          tracking-[0.25em]
-        "
+                      casio-btn
+                      px-5
+                      py-3
+                      text-xs
+                      tracking-[0.25em]
+                      text-center
+                    "
                   >
                     BACK
                   </Link>
                 </div>
+
                 <div className="border-t border-[#5d6e5d]">
                   <div className="border-b border-[#5d6e5d] p-2">
                     <p className="tracking-[0.2em] text-sm opacity-70">
@@ -251,7 +262,7 @@ const ProjectDetails = () => {
 
             {/* PROJECT DESCRIPTION */}
 
-            <div className="border border-[#5d6e5d] mt-4 overflow-hidden">
+            <div className="border border-[#5d6e5d] rounded mt-4 overflow-hidden">
               <div className="border-b border-[#5d6e5d] p-2">
                 <p className="tracking-[0.2em] text-sm opacity-70">
                   PROJECT DESCRIPTION
@@ -267,7 +278,7 @@ const ProjectDetails = () => {
 
             {/* TECH STACK */}
 
-            <div className="border border-[#5d6e5d] mt-4 p-4">
+            <div className="border border-[#5d6e5d] rounded mt-4 p-4">
               <p className="tracking-[0.2em] text-sm opacity-70 mb-5">
                 TECHNICAL PROFICIENCY
               </p>
