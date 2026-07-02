@@ -140,28 +140,17 @@ const ProjectDetails = () => {
                   </p>
                 </div>
 
-                <div className="flex-1 flex items-center justify-center p-4">
-                  <div
+                <div className="flex-1 overflow-hidden">
+                  <img
+                    src={project.imageUrl?.url}
+                    alt={project.title}
                     className="
                       w-full
+                      h-full
+                      object-cover
                       aspect-video
-                      overflow-hidden
-                      border-2
-                      border-[#5d6e5d]
-                      shadow-[inset_0_0_25px_rgba(0,0,0,.4)]
-                      rounded
                     "
-                  >
-                    <img
-                      src={project.imageUrl?.url}
-                      alt={project.title}
-                      className="
-                        w-full
-                        h-full
-                        object-cover
-                      "
-                    />
-                  </div>
+                  />
                 </div>
               </div>
 
