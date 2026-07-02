@@ -55,8 +55,6 @@ function Dashboard() {
       try {
         const { data } = await getProjects();
 
-        console.log(data);
-
         const projects = data?.projects || [];
 
         setStats({

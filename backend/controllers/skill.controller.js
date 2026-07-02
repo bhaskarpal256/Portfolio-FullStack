@@ -63,7 +63,7 @@ const createSkill = asyncHandler(async (req, res) => {
       public_id: uploadIconOnCloudinary.public_id,
     };
   } catch (error) {
-    console.log("skill icon creation failed in DB", error);
+    console.error("skill icon creation failed in DB", error);
   }
 
   await skill.save();

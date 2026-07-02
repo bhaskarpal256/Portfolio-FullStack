@@ -63,14 +63,15 @@ const updateResume = asyncHandler(async (req, res) => {
     throw new ApiError(400, "Update data contains some invalid fields!!!");
   }
 
-  const filteredFields = Object.fromEntries(
-    Object.entries(req.body).filter(([key]) => allowedFields.includes(key))
-  );
-
-  for (let [key, value] of Object.entries(filteredFields)) {
-    if (value === "" || value === undefined || value === null) {
-      throw new ApiError(400, "Value doesn't exist or is undefined!!!");
+  const filteredFields = {};
+  for (let key of allowedFields) {
+    if (req.body[key] !== undefined && req.body[key] !== null) {
+      filteredFields[key] = req.body[key];
     }
+  }
+
+  if (filteredFields.summary !== undefined && (filteredFields.summary === "" || filteredFields.summary.trim().length < 30)) {
+    throw new ApiError(400, "Summary is required and must be at least 30 characters!!!");
   }
 
   let resume = await Resume.findOne();

@@ -14,19 +14,13 @@ const ManageProjects = () => {
   const [showModal, setShowModal] = useState(false);
   const [editingProject, setEditingProject] = useState(null);
 
-  // useEffect(() => {
-  //   console.log(editingProject)
-  // }, [editingProject])
-
   // Fetch projects
   useEffect(() => {
     const fetchProjects = async () => {
       const start = Date.now();
       try {
         const { data } = await getProjects();
-        console.log("After await getAllProjects", data.data);
         setProjects(data.data);
-        console.log("projects:", projects);
       } catch (error) {
         console.error(error);
       } finally {

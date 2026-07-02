@@ -275,8 +275,6 @@ const updateUserAvatar = asyncHandler(async (req, res) => {
     user.avatar?.public_id,
   );
 
-  console.log(deleteExistingAvatar);
-
   if (!deleteExistingAvatar) {
     throw new ApiError(401, "Was not able to delete Existing Avatar!!!");
   }

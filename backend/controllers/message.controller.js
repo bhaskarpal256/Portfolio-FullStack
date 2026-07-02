@@ -21,26 +21,22 @@ const createMessage = asyncHandler(async (req, res) => {
     message,
   });
 
-try {
-  console.log("Attempting to send email via Resend...");
+  try {
+    const response = await resend.emails.send({
+      from: "Portfolio <onboarding@resend.dev>",
+      to: ["bhaskarpal256@gmail.com"],
+      subject: `New Portfolio Message: ${subject}`,
+      html: `
+        <h2>New Contact Form Submission</h2>
+        <p>${message}</p>
+      `,
+    });
 
-  const response = await resend.emails.send({
-    from: "Portfolio <onboarding@resend.dev>",
-    to: ["bhaskarpal256@gmail.com"],
-    subject: `New Portfolio Message: ${subject}`,
-    html: `
-      <h2>New Contact Form Submission</h2>
-      <p>${message}</p>
-    `,
-  });
+  } catch (error) {
+    console.error("RESEND ERROR:", error);
 
-  console.log("RESEND RESPONSE:", response);
-
-} catch (error) {
-  console.error("RESEND ERROR:", error);
-
-  throw error;
-}
+    throw error;
+  }
 
   return res
     .status(201)

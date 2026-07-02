@@ -29,9 +29,7 @@ const Skills = () => {
     const fetchSkills = async () => {
       const start = Date.now();
       try {
-        console.log("Calling API...");
         const { data } = await getSkills();
-        console.log("API response:", data);
         setSkills(data.data);
       } catch (error) {
         console.error(error);
@@ -95,18 +93,12 @@ const Skills = () => {
         isFeatured: !skill.isFeatured,
       };
 
-      console.log(updatedSkill);
-
       const { data } = await updateSkill(skill._id, updatedSkill);
 
       setSkills((prev) =>
         prev.map((s) => (s._id === skill._id ? data.data : s)),
       );
     } catch (error) {
-      console.log("FULL ERROR:", error); // ✅ VERY IMPORTANT
-      console.log("RESPONSE:", error.response);
-      console.log("DATA:", error.response?.data);
-
       console.error(error);
     }
   };

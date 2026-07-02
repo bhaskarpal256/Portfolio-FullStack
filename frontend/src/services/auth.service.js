@@ -3,7 +3,6 @@ import { refreshClient } from "./refreshClient.js";
 
 // Login
 export const loginUser = (credentials) => {
-  console.log("LOGIN REQUEST");
   return api.post("/users/login", credentials);
 };
 

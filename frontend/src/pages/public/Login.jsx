@@ -91,10 +91,7 @@ const Login = () => {
   }, [projects]);
 
   const handleSubmit = async (e) => {
-    console.log("LOGIN CLICKED");
     e.preventDefault();
-
-    console.log("API URL:", import.meta.env.VITE_API_URL);
 
     setError("");
     setLoading(true);
@@ -102,17 +99,9 @@ const Login = () => {
     try {
       const loginResponse = await loginUser(form);
 
-      console.log("LOGIN RESPONSE:", loginResponse.data);
-
       localStorage.setItem("accessToken", loginResponse.data.data.accessToken);
 
-      console.log("TOKEN IN STORAGE:", localStorage.getItem("accessToken"));
-
-      console.log("CALLING /users/me");
-
       const { data } = await getCurrentUser();
-
-      console.log("ME RESPONSE:", data);
 
       setUser(data.data);
 
@@ -120,8 +109,6 @@ const Login = () => {
         replace: true,
       });
     } catch (err) {
-      console.error(err);
-
       setError(err?.response?.data?.message || "Invalid credentials");
     } finally {
       setLoading(false);

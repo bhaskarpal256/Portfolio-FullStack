@@ -90,20 +90,15 @@ const SkillFormModal = ({
         setIsCreating(true);
         toastId = showLoading("Creating skill...");
 
-        console.log("Creating skill...");
         const formData = new FormData();
         formData.append("name", form.name);
-        console.log("name appended...");
         formData.append("category", form.category);
-        console.log("category appended...");
         if (form.icon) {
           formData.append("icon", form.icon);
         }
-        console.log("icon appended...");
 
         const { data } = await createSkill(formData);
 
-        console.log("fetchedDataSuccessfully...", data.data);
         onSkillCreated(data.data);
         showSuccess("Skill Created!", toastId);
         closeModal();

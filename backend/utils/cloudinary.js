@@ -22,12 +22,6 @@ const uploadOnCloudinary = async (localFilePath) => {
       access_mode: "public",
     });
     //  file has been uploaded successfully
-    // console.log("file uploaded on cloudinary!!!", response.url)
-    console.log(response);
-    console.log("TYPE:", response.type);
-    console.log("RESOURCE TYPE:", response.resource_type);
-    console.log("ACCESS MODE:", response.access_mode);
-
     if (fs.existsSync(localFilePath)) {
       fs.unlinkSync(localFilePath);
     }
@@ -45,7 +39,6 @@ const deleteFromCloudinary = async (public_id) => {
   try {
     if (!public_id) return null;
     const deleteResponse = await cloudinary.uploader.destroy(public_id);
-    console.log("Deleted from Cloudinary: ", deleteResponse);
     return deleteResponse;
   } catch (error) {
     console.error("Cloudinary deletion error: ", error);

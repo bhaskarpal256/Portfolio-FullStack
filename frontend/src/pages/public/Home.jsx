@@ -13,7 +13,6 @@ const Home = () => {
     try {
       const response = await getResume();
       setResume(response.data.data);
-      console.log(resume)
 
     } catch (error) {
       console.error(error);

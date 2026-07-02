@@ -133,17 +133,12 @@ const ProjectFormModal = ({
     let toastId;
     if (initialData) {
       try {
-        console.log(initialData);
         setIsEditing(true);
         toastId = showLoading("Updating project...");
-        console.log("Inside Update");
-
-        console.log("Form :", form);
 
         let updatedProject = {};
 
         if (form.imageUrl) {
-          console.log("Before image upload");
           const imageData = new FormData();
           imageData.append("projectImage", form.imageUrl);
           const imageResponse = await updateProjectImage(
@@ -203,12 +198,9 @@ const ProjectFormModal = ({
         }
         const { data } = await createProject(formData);
 
-        console.log("Start of createProject");
-
         onProjectCreated(data.data);
         showSuccess("Project Created!", toastId);
         closeModal();
-        console.log("End of createProject");
       } catch (error) {
         showError(error, toastId);
       } finally {

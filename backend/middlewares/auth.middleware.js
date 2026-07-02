@@ -42,12 +42,8 @@ export const verifyJWT = asyncHandler(async (req, res, next) => {
 
     req.user = user;
 
-    console.log("AUTH SUCCESS USER ID:", user._id);
-
     next();
   } catch (error) {
-    console.log("JWT ERROR:", error.message);
-
     return res.status(401).json({
       success: false,
       message: "Invalid or expired Access Token",

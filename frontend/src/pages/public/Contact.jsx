@@ -15,7 +15,6 @@ const Contact = () => {
       try {
         const { data } = await getResume();
         setResume(data.data);
-        console.log(data.data);
       } catch (err) {
         console.error(err);
       } finally {

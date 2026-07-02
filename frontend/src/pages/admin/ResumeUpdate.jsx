@@ -57,7 +57,6 @@ const ResumeUpdate = () => {
   });
 
   useEffect(() => {
-console.log("Resume mounted");
     const fetchResume = async () => {
       const start = Date.now();
       try {
@@ -103,32 +102,50 @@ console.log("Resume mounted");
   const onSubmit = async (data) => {
     let toastId;
     try {
+      setSaving(true);
       toastId = showLoading("Updating resume...");
 
       if (data.resumePdf?.[0]) {
-        try {
-          const formData = new FormData();
-          formData.append("resumePdf", data.resumePdf[0]);
-          await resumePdfUpdate(formData);
-          showSuccess("Resume updated successfully!", toastId);
-        } catch (error) {
-          console.log("FULL ERROR:", error);
-          console.log("RESPONSE:", error.response);
-          console.log("DATA:", error.response?.data);
-          showError("Something went wrong!", toastId);
-        }
+        const formData = new FormData();
+        formData.append("resumePdf", data.resumePdf[0]);
+        await resumePdfUpdate(formData);
       }
 
       const { resumePdf, _id, __v, createdAt, updatedAt, ...rest } = data;
-      console.log(rest);
 
-      await updateResume(rest);
+      // Clean up empty or invalid values
+      const cleanedRest = {
+        ...rest,
+        experience: rest.experience?.map((exp) => ({
+          ...exp,
+          startDate: exp.startDate || null,
+          endDate: exp.endDate || null,
+        })),
+        education: rest.education?.map((edu) => ({
+          ...edu,
+          endYear: edu.endYear ? Number(edu.endYear) : null,
+          startYear: edu.startYear ? Number(edu.startYear) : null,
+        })),
+      };
 
-      console.log("inside onSubmit");
+      await updateResume(cleanedRest);
+      showSuccess("Resume updated successfully!", toastId);
+      
+      const { data: updatedData } = await getResume();
+      const formattedData = {
+        ...updatedData.data,
+        experience: updatedData.data.experience.map((exp) => ({
+          ...exp,
+          startDate: exp.startDate?.split("T")[0] || "",
+          endDate: exp.endDate?.split("T")[0] || "",
+        })),
+      };
+      reset(formattedData);
+      setResume(updatedData.data);
     } catch (error) {
-      console.log("FULL ERROR:", error);
-      console.log("RESPONSE:", error.response);
-      console.log("DATA:", error.response?.data);
+      showError(error.response?.data?.message || "Failed to update resume!", toastId);
+    } finally {
+      setSaving(false);
     }
   };
 
@@ -170,7 +187,6 @@ console.log("Resume mounted");
                 useFieldArray={useFieldArray}
               />
             ))}
-            {console.log(expFields)}
 
             <button
               type="button"
